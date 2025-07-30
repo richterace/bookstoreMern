@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { href, Link } from 'react-router-dom'
 import { HiBars3CenterLeft } from "react-icons/hi2";
 import { IoIosSearch } from "react-icons/io";
 import { HiOutlineUser } from "react-icons/hi";
@@ -10,10 +10,25 @@ import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { getImageUrl } from '../utils/getImg';
 
 
+const navigation = 
+[
+    {name: "Dashboard", href:"/dashboard"},
+    {name: "Orders", href:"/order"},
+    {name: "Cart Page", href:"/cart"},
+    {name: "Checkout", href:"/checkout"}
+]
+
+
 const Navbar = () => {
 
     // imports of images
     const profileImg = getImageUrl('avatar.png');
+
+
+
+    //functions to be used
+    const [isDropdownOpen,setIsDropdownOpen] = useState(false);
+    console.log(isDropdownOpen)
 
     const currentUser = true;
 
@@ -41,11 +56,30 @@ const Navbar = () => {
                     <div>
                         {
                             currentUser ? <>
-                                <button>
+                                <button onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
                                     <img src={profileImg} alt=""
                                         className={`size-7 rounded-full 
                                         ${currentUser ? 'ring-2 ring-blue-500' : ''}`} />
                                 </button>
+                                {/* {show dropdowns} */}
+                                {
+                                    isDropdownOpen && (
+                                        <div className='absolute right-0 mt-2 w-48 bg-white
+                                        shadow-lg rounded-md z-40'>
+                                            <ul className='py-2'>
+                                                {
+                                                    navigation.map((item)=>(
+                                                        <li key={item.name}>
+                                                            <Link to={item.href} className='block px-4 py-2 text-sm hover:bg-gray-100'>
+                                                            {item.name} 
+                                                            </Link>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+                                    )
+                                }
                             </> : <Link to="/login"><HiOutlineUser className='size-6' /></Link>
                         }
                     </div>
