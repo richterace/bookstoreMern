@@ -10,13 +10,13 @@ import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { getImageUrl } from '../utils/getImg';
 
 
-const navigation = 
-[
-    {name: "Dashboard", href:"/dashboard"},
-    {name: "Orders", href:"/order"},
-    {name: "Cart Page", href:"/cart"},
-    {name: "Checkout", href:"/checkout"}
-]
+const navigation =
+    [
+        { name: "Dashboard", href: "/dashboard" },
+        { name: "Orders", href: "/orders" },
+        { name: "Cart Page", href: "/cart" },
+        { name: "Checkout", href: "/checkout" }
+    ]
 
 
 const Navbar = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
 
 
     //functions to be used
-    const [isDropdownOpen,setIsDropdownOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     console.log(isDropdownOpen)
 
     const currentUser = true;
@@ -56,7 +56,7 @@ const Navbar = () => {
                     <div>
                         {
                             currentUser ? <>
-                                <button onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
+                                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                                     <img src={profileImg} alt=""
                                         className={`size-7 rounded-full 
                                         ${currentUser ? 'ring-2 ring-blue-500' : ''}`} />
@@ -68,10 +68,10 @@ const Navbar = () => {
                                         shadow-lg rounded-md z-40'>
                                             <ul className='py-2'>
                                                 {
-                                                    navigation.map((item)=>(
-                                                        <li key={item.name}>
+                                                    navigation.map((item) => (
+                                                        <li key={item.name} onClick={() => setIsDropdownOpen(false)}>
                                                             <Link to={item.href} className='block px-4 py-2 text-sm hover:bg-gray-100'>
-                                                            {item.name} 
+                                                                {item.name}
                                                             </Link>
                                                         </li>
                                                     ))
