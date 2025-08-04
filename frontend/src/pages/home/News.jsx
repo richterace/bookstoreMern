@@ -20,8 +20,6 @@ import news4 from '../../assets/news/news-4.png'
 import { Link } from 'react-router-dom';
 
 
-
-
 const news = [
     {
         "id": 1,
