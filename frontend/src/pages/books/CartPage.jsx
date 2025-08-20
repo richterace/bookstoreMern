@@ -67,7 +67,7 @@ const CartPage = () => {
                               <p className="mt-1 text-sm text-gray-500 capitalize"><strong>Category:</strong> {product?.category}</p>
                             </div>
                             <div className="flex flex-1 flex-wrap items-end justify-between space-y-2 text-sm">
-                              <p className="text-gray-500"><strong>Qty:</strong> { }</p>
+                              <p className="text-gray-500"><strong>Qty:</strong> {cartItems.length}</p>
 
                               <div className="flex">
                                 <button
