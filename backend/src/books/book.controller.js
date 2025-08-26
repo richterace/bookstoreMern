@@ -47,8 +47,36 @@ const getSingleBook = async (req, res) => {
     }
 }
 
+
+// update book data 
+// How to update: 
+// A.findByIdAndUpdate(id, update, options)  // returns Query
+// A.findByIdAndUpdate(id, update)           // returns Query
+// A.findByIdAndUpdate()   
+
+const updateBook = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        const updatedBook = await Book.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedBook) {
+            res.status(404).send({ message: "Book not found" }) // 404 means not found
+        }
+        res.status(200).send({
+            message: "Book update successfully",
+            book: updatedBook
+        });
+
+
+    } catch (error) {
+        console.error("Error updating a book", error);
+        res.status(500).send({ message: "Failed to update books" })
+    }
+}
+
 module.exports = {
     postABook,
     getAllBooks,
-    getSingleBook
+    getSingleBook,
+    updateBook
 }
