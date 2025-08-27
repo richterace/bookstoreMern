@@ -30,7 +30,6 @@ const getAllBooks = async (req, res) => {
 
 
 // single book, find by id
-
 const getSingleBook = async (req, res) => {
 
     try {
@@ -75,9 +74,7 @@ const updateBook = async (req, res) => {
 }
 
 
-
 // delete a book by id endpoint
-
 const deleteBook = async (req, res) => {
 
     try {
@@ -100,6 +97,8 @@ const deleteBook = async (req, res) => {
     }
 
 }
+
+
 module.exports = {
     postABook,
     getAllBooks,
