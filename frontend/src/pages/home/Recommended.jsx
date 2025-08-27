@@ -14,18 +14,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import BookCard from '../books/BookCard';
 
+// API for GET
+import { useFetchAllBooksQuery } from '../../redux/features/cart/booksApi';
+
 const Recommended = () => {
 
-    const [books, setBooks] = useState([]);
+    // API
+    const { data: books = [] } = useFetchAllBooksQuery()
 
-    // reponsible in fetching the data from books.json
-    useEffect(() => {
-        fetch("books.json")
-            .then(res => res.json())
-            .then((data) => setBooks(data))
-    }, [])
-
-    console.log(books)
     return (
 
         <div className='py-16'>

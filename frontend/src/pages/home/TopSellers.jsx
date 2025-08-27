@@ -23,15 +23,12 @@ const TopSellers = () => {
 
 
     const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
-
+    // api responsible for getting all books
     const { data: books = [] } = useFetchAllBooksQuery()
-
-    console.log(books)
 
     const filteredBooks = selectedCategory === "Choose a genre" ? books :
         books.filter(book => book.category === selectedCategory.toLowerCase())
 
-    console.log(filteredBooks)
 
     return (
         <div className='py-10'>
