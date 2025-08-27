@@ -13,20 +13,18 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+// API Modules
+import { useFetchAllBooksQuery } from '../../redux/features/cart/booksApi';
+
 
 const categories = ["Choose a genre", "Business", "Fiction", "Horror", "Adventure"]
 
 const TopSellers = () => {
 
-    const [books, setBooks] = useState([]);
+
     const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
 
-    // reponsible in fetching the data from books.json
-    useEffect(() => {
-        fetch("books.json")
-            .then(res => res.json())
-            .then((data) => setBooks(data))
-    }, [])
+    const { data: books = [] } = useFetchAllBooksQuery()
 
     console.log(books)
 
