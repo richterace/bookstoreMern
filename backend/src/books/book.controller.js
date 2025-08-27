@@ -70,13 +70,40 @@ const updateBook = async (req, res) => {
 
     } catch (error) {
         console.error("Error updating a book", error);
-        res.status(500).send({ message: "Failed to update books" })
+        res.status(500).send({ message: "Failed to update book" })
     }
 }
 
+
+
+// delete a book by id endpoint
+
+const deleteBook = async (req, res) => {
+
+    try {
+        // A.findOneAndDelete(conditions, options)  // return Query
+        // A.findOneAndDelete(conditions) // returns Query
+        // A.findOneAndDelete() 
+        const { id } = req.params;
+        const deletedBook = await Book.findByIdAndDelete(id);
+        if (!deletedBook) {
+            res.status(404).send({ message: "Book not found" }) // 404 means not found
+        }
+        res.status(200).send({
+            message: "deleted successfully",
+            book: deletedBook
+        });
+
+    } catch (error) {
+        console.error("Error deleting a book", error);
+        res.status(500).send({ message: "Failed to delete book" })
+    }
+
+}
 module.exports = {
     postABook,
     getAllBooks,
     getSingleBook,
-    updateBook
+    updateBook,
+    deleteBook
 }
