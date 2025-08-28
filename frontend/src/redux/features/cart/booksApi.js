@@ -2,6 +2,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import getBaseUrl from '../../../utils/baseUrl'
 
+/* builder.query() (redux)
+* it’s a read operation (GET)
+
+builder.mutation()
+* POST (create a book)
+
+* PUT/PATCH (edit a book)
+
+* DELETE (delete a book) */
 
 const baseQuery = fetchBaseQuery({
 
@@ -25,10 +34,46 @@ const booksApi = createApi({
         fetchAllBooks: builder.query({
             query: () => "/",
             providesTags: ["Books"]
+        }),
+        fetchBookById: builder.query({
+            query: (id) => `${id}`,
+            providesTags: (results, error, id) => [{ type: "Books", id }],
+        }),
+        addBook: builder.mutation({
+            query: (newBook) => ({
+                url: `/create-book`,
+                method: "POST",
+                body: newBook
+            }),
+            invalidatesTags: ["Books"]
+        }),
+        updateBook: builder.mutation({
+            query: ({ id, ...rest }) => ({
+                url: `/edit/${id}`,
+                method: "PUT",
+                body: rest,
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            }),
+            invalidatesTags: ["Books"]
+        }),
+
+        deleteBook: builder.mutation({
+            query: (id) => ({
+                url: `/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Books"]
         })
     })
 
 })
 
-export const { useFetchAllBooksQuery } = booksApi
+export const {
+    useFetchAllBooksQuery,
+    useFetchBookByIdQuery,
+    useAddBookMutation,
+    useUpdateBookMutation,
+    useDeleteBookMutation } = booksApi
 export default booksApi;
