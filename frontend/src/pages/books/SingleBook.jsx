@@ -3,6 +3,8 @@ import { getBookData } from '../../utils/getBookData'
 import { useParams } from 'react-router-dom'
 import { useFetchBookByIdQuery } from '../../redux/features/cart/booksApi';
 import { FiShoppingCart } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/features/cart/cartSlice';
 
 const SingleBook = () => {
 
@@ -11,6 +13,12 @@ const SingleBook = () => {
 
     if (isLoading) return <div>Loading....</div>
     if (isError) return <div>Error Encountered...</div>
+
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product))
+    }
 
     return (
         <div className="max-w-lg justify-items-center shadow-md p-5">
