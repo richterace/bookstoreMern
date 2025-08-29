@@ -9,11 +9,12 @@ import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 import { getImageUrl } from '../utils/getImg';
 import { useSelector } from 'react-redux';
+import { useAuth } from '../context/authContext';
 
 
 const navigation =
     [
-        { name: "Dashboard", href: "/dashboard" },
+        { name: "Dashboard", href: "/" },
         { name: "Orders", href: "/orders" },
         { name: "Cart Page", href: "/cart" },
         { name: "Checkout", href: "/checkout" }
@@ -34,8 +35,13 @@ const Navbar = () => {
     const cartItems = useSelector(state => state.cart.cartItems)
     // console.log(cartItems)
 
-    const currentUser = false;
+    // const currentUser = false;
+    const { currentUser, logout } = useAuth()
 
+    // to handle logout
+    const handleLogout = () => {
+        logout()
+    }
     return (
         <header className='max-w-screen-2xl mx-auto px-4 py-6'>
             <nav className='flex justify-between items-center'>
@@ -80,6 +86,11 @@ const Navbar = () => {
                                                         </li>
                                                     ))
                                                 }
+                                                <li>
+                                                    <button
+                                                        onClick={handleLogout}
+                                                        className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'>Logout</button>
+                                                </li>
                                             </ul>
                                         </div>
                                     )
