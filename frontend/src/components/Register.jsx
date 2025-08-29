@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form"
+import { useAuth } from '../context/authContext';
 
 const Register = () => {
 
     const [message, setMessage] = useState("");
+
+    // import the Auth
+    const { registerUser, signInWithGoogle } = useAuth()
+
+    const navigate = useNavigate()
 
     const {
         register,
@@ -15,9 +21,31 @@ const Register = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
+    // register user
+    const onSubmit = async (data) => {
+        console.log(data)
+        try {
+            await registerUser(data.email, data.password)
+            alert("User Registered")
+            navigate("/login")
+        } catch (error) {
+            setMessage("Please provide a valid email and password")
+            console.error(error)
+        }
+    }
 
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async (data) => {
+
+        console.log(data)
+
+        try {
+            await signInWithGoogle()
+            alert("Login successfully")
+            navigate("/")
+        } catch (error) {
+            setMessage("Error handling", error)
+        }
+
 
     }
 
@@ -63,7 +91,9 @@ const Register = () => {
 
                 {/* {google sign in method} */}
                 <div className='mt-4'>
-                    <button className='w-full flex flex-wrap gap-1 items-center justify-center bg-secondary hover:bg-blue-700 text-white
+                    <button
+                        onClick={handleGoogleSignIn}
+                        className='w-full flex flex-wrap gap-1 items-center justify-center bg-secondary hover:bg-blue-700 text-white
                     font-bold py-2 px-4 rounded focus:outline-none'>
                         <FaGoogle className='mr-2 ' />
                         Sign up with Google

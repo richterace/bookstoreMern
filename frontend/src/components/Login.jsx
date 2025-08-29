@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form"
+import { googleProvider, useAuth } from '../context/authContext';
 
 
 const Login = () => {
 
     const [message, setMessage] = useState("");
 
+    // login authentication
+    const { loginUser, signInWithGoogle } = useAuth();
+
+    // google sign in
+    // const { signInWithGoogle } = googleProvider()
+
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -16,9 +24,30 @@ const Login = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = async (data) => {
+        console.log(data)
+        try {
+            await loginUser(data.email, data.password)
+            alert("Login Successfully")
+            navigate("/")
+        } catch (error) {
+            setMessage("Please enter existing email.")
+            console.error(error)
+        }
+    }
 
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async (data) => {
+
+        console.log(data)
+
+        try {
+            await signInWithGoogle()
+            alert("Login successfully")
+            navigate("/")
+        } catch (error) {
+            setMessage("Error handling", error)
+        }
+
 
     }
 
