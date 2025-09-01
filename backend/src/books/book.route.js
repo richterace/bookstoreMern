@@ -1,6 +1,7 @@
 const express = require('express');
 const Book = require('./book.model');
 const { postABook, getAllBooks, getSingleBook, updateBook, deleteBook } = require('./book.controller');
+const verifyAdminToken = require('../middleware/verifyAdminToken');
 const router = express.Router();
 
 
@@ -20,7 +21,7 @@ const router = express.Router();
  
 */
 // post a book
-router.post("/create-book", postABook)
+router.post("/create-book", verifyAdminToken, postABook)
 
 // get all books from the current database
 router.get("/", getAllBooks)
@@ -29,9 +30,9 @@ router.get("/", getAllBooks)
 router.get("/:id", getSingleBook)
 
 // update a book endpoint
-router.put("/edit/:id", updateBook)
+router.put("/edit/:id", verifyAdminToken, updateBook)
 
 // delete a book endpoint
-router.delete("/delete/:id", deleteBook)
+router.delete("/delete/:id", verifyAdminToken, deleteBook)
 
 module.exports = router;
