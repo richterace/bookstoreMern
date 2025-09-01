@@ -13,8 +13,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+
 // API Modules
-import { useFetchAllBooksQuery } from '../../redux/features/cart/booksApi';
+import { useFetchAllBooksQuery } from '../../redux/features/books/booksApi';
 
 
 const categories = ["Choose a genre", "Business", "Fiction", "Horror", "Adventure"]

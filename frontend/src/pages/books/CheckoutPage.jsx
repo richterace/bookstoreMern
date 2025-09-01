@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import { useCreateOrderMutation } from '../../redux/features/order/orderApi';
+import Swal from 'sweetalert2';
 
 const CheckoutPage = () => {
 
@@ -14,6 +16,12 @@ const CheckoutPage = () => {
 
     const { currentUser } = useAuth() // responsible for checking if current user is there
 
+    // mutation
+    const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+
+    // navigate back to homepage
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -23,8 +31,13 @@ const CheckoutPage = () => {
     const [isChecked, setIsChecked] = useState(false);
 
     // preparing for backend, address is an object
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        if (!data.termsAccepted) {
+            alert("Please accept the Terms & Conditions before placing your order.");
+            return;
+        }
+
+        // console.log(data)
         const newOrder = {
             name: data.name,
             email: currentUser?.email,
@@ -38,8 +51,31 @@ const CheckoutPage = () => {
             productIds: cartItems.map(item => item?._id),
             totalPrice: totalPrice,
         }
-        console.log(newOrder);
+        // console.log(newOrder);
+
+        try {
+
+            await createOrder(newOrder).unwrap();
+            Swal.fire({
+                title: "Confirm Order?",
+                text: "",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirm"
+            });
+
+            navigate('/orders')
+
+        } catch (error) {
+            console.error("Error creating order", error)
+            alert("Error creating order")
+        }
     }
+
+
+    if (isLoading) return <div>Loading....</div>
 
 
 
@@ -88,14 +124,26 @@ const CheckoutPage = () => {
                                                 placeholder="email@domain.com" />
                                         </div>
 
-                                        <div className="md:col-span-5">
+                                        {/* <div className="md:col-span-5">
                                             <label htmlFor="phone">Phone Number</label>
                                             <input
                                                 type="number" {...register("phone", { required: true })}
                                                 id="phone"
                                                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                                                 placeholder="+123 456 7890" />
+                                        </div> */}
+                                        <div className="md:col-span-5">
+                                            <label htmlFor="phone">Phone Number</label>
+                                            <input
+                                                type="tel"
+                                                {...register("phone", { required: true })}
+                                                id="phone"
+                                                className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                                placeholder="+123 456 7890"
+                                                pattern="^\+?[0-9\s\-]{7,15}$" // optional: restrict to digits, +, space, and dashes
+                                            />
                                         </div>
+
 
                                         <div className="md:col-span-3">
                                             <label htmlFor="address">Address / Street</label>

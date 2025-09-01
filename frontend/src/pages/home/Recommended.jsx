@@ -14,8 +14,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import BookCard from '../books/BookCard';
 
+
 // API for GET
-import { useFetchAllBooksQuery } from '../../redux/features/cart/booksApi';
+import { useFetchAllBooksQuery } from '../../redux/features/books/booksApi';
 
 const Recommended = () => {
 
