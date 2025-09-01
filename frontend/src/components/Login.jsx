@@ -14,7 +14,6 @@ const Login = () => {
     const { loginUser, signInWithGoogle } = useAuth();
 
     // google sign in
-    // const { signInWithGoogle } = googleProvider()
 
     const navigate = useNavigate()
     const {

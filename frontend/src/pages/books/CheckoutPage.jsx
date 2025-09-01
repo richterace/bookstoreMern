@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 const CheckoutPage = () => {
 
@@ -9,7 +10,9 @@ const CheckoutPage = () => {
 
     const totalPrice = cartItems.reduce((acc, item) => acc + item.newPrice, 0).toFixed(2);
 
-    const currentUser = true; // get user from auth
+    // const currentUser = true; // get user from auth
+
+    const { currentUser } = useAuth() // responsible for checking if current user is there
 
     const {
         register,
