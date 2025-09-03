@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDeleteBookMutation, useFetchAllBooksQuery } from '../../../redux/features/books/booksApi';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ManageBooks = () => {
     const navigate = useNavigate();
@@ -10,28 +11,42 @@ const ManageBooks = () => {
     const [deleteBook] = useDeleteBookMutation()
 
     // Handle deleting a book
-    const handleDeleteBook = async (id) => {
-        try {
-            await deleteBook(id).unwrap();
-            alert('Book deleted successfully!');
-            refetch();
-
-        } catch (error) {
-            console.error('Failed to delete book:', error);
-            alert('Failed to delete book. Please try again.');
-        }
-    };
-
     // const handleDeleteBook = async (id) => {
     //     try {
-    //         await deleteBook(id);
+    //         await deleteBook(id).unwrap();
     //         alert('Book deleted successfully!');
     //         refetch();
+            
+
     //     } catch (error) {
     //         console.error('Failed to delete book:', error);
     //         alert('Failed to delete book. Please try again.');
     //     }
     // };
+
+    const handleDeleteBook = async (id) => {
+        try {
+            const result = await Swal.fire({
+            title: "Confirm Delete?",
+            text: "Are you sure you want to delete this book?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            });
+
+            if (result.isConfirmed) {
+            await deleteBook(id).unwrap();
+            Swal.fire("Deleted!", "Book deleted successfully!", "success");
+            refetch();
+            }
+
+        } catch (error) {
+            console.error("Failed to delete book:", error);
+            Swal.fire("Error!", "Failed to delete book. Please try again.", "error");
+        }
+        };
 
     // Handle navigating to Edit Book page
     const handleEditClick = (id) => {
