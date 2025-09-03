@@ -12,6 +12,7 @@ import OrderPage from "../pages/books/OrderPage";
 import AdminRoute from "./AdminRoute";
 import AdminLogin from "../components/AdminLogin";
 import DashboardLayout from "../pages/dashboard/DashboardLayout";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 
 const router = createBrowserRouter([
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <AdminRoute> <div>Dashboard Home</div></AdminRoute>
+                element: <AdminRoute> <Dashboard /></AdminRoute>
             },
             {
                 path: "add-new-book",
